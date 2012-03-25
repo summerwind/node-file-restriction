@@ -1,0 +1,23 @@
+{
+  "author": "Moto Ishizawa <summerwind.jp@gmail.com>",
+  "name": "file-restriction",
+  "description": "File restriction for Node.js",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/summerwind/node-file-restriction.git"
+  },
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+   "mocha": "*",
+   "chai": "*"
+  },
+  "optionalDependencies": {},
+  "scripts": {
+    "test": "./node_modules/.bin/mocha -R spec"
+  },
+  "engines": {
+    "node": "*"
+  }
+}
