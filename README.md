@@ -5,7 +5,7 @@ A file restriction module for Node.js.
 ## Installation
 
 ``` bash
-  $ npm install file-restriction
+$ npm install file-restriction
 ```
 
 ## Usage

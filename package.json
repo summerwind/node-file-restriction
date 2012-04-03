@@ -7,7 +7,7 @@
     "type": "git",
     "url": "git://github.com/summerwind/node-file-restriction.git"
   },
-  "main": "index.js",
+  "main": "restriction.js",
   "dependencies": {},
   "devDependencies": {
    "mocha": "*",
@@ -15,7 +15,7 @@
   },
   "optionalDependencies": {},
   "scripts": {
-    "test": "./node_modules/.bin/mocha -R spec"
+    "test": "./node_modules/.bin/mocha -R spec" 
   },
   "engines": {
     "node": "*"

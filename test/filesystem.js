@@ -7,7 +7,7 @@ var etc_path = '/etc/hosts',
     tmp_path = '/tmp/node-restriction.log',
     mod      = fs.exists ? fs : path;
 
-require('../index');
+require('../restriction');
 
 describe('File System', function() {
     it('rename() - OK', function(done) {
