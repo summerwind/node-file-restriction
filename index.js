@@ -4,6 +4,7 @@ var fs = require('fs'),
 // ==============================================
 // Backup original methods
 // ==============================================
+var mod = fs.exists ? fs : path;
 var rename          = fs.rename,
     renameSync      = fs.renameSync,
     chown           = fs.chown,
@@ -44,10 +45,10 @@ var rename          = fs.rename,
     appendFileSync  = fs.appendFileSync,
     watchFile       = fs.watchFile,
     watch           = fs.watch,
-    exists          = path.exists,
-    existsSync      = path.existsSync,
     createreadstream    = fs.createreadstream,
-    createwritestream   = fs.createwritestream;
+    createwritestream   = fs.createwritestream,
+    exists          = mod.exists,
+    existsSync      = mod.existsSync;
 
 
 // ==============================================
@@ -80,12 +81,19 @@ var restrictor = {
         // Resolve path
         target = path.resolve(target);
 
-        // Check restriction pattarn
-        this.config.forEach(function(pattern) {
-            if(target.match(pattern)) {
-                allowed = true;
-            }
-        });
+        // Check cache
+        if(this.cache && this.cache[0] == target) {
+            allowed = this.cache[1];
+        } else {
+            // Check restriction pattarn
+            this.config.forEach(function(pattern) {
+                if(target.match(pattern)) {
+                    allowed = true;
+                }
+            });
+            // Save cache
+            this.cache = [target, allowed];
+        }
         
         if(!allowed) {
             throw new Error('File restriction - ' + target);
@@ -313,12 +321,12 @@ fs.createWriteStream = function(path, options) {
     return createWriteStream.apply(fs, arguments);
 };
 
-path.exists = function(p, callback) {
+mod.exists = function(p, callback) {
     restrictor.checkPath(p);
     return exists.apply(path, arguments);
 };
 
-path.existsSync = function(p) {
+mod.existsSync = function(p) {
     restrictor.checkPath(p);
     return existsSync.apply(path, arguments);
 };
