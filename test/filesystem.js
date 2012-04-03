@@ -4,7 +4,8 @@ var chai    = require('chai'),
     should  = chai.should();
 
 var etc_path = '/etc/hosts',
-    tmp_path = '/tmp/node-restriction.log';
+    tmp_path = '/tmp/node-restriction.log',
+    mod      = fs.exists ? fs : path;
 
 require('../index');
 
@@ -14,8 +15,7 @@ describe('File System', function() {
         
         fs.writeFileSync(tmp_path, 'log', 'utf8');
         fs.rename(tmp_path, renamed_path, function(err){
-            var exists = path.existsSync(renamed_path);
-            exists.should.be.true;
+            should.not.exist(err);
             fs.unlinkSync(renamed_path);
             done();
         });
@@ -39,7 +39,7 @@ describe('File System', function() {
         fs.writeFileSync(tmp_path, 'log', 'utf8');
         fs.renameSync(tmp_path, renamed_path);
         
-        var exists = path.existsSync(renamed_path);
+        var exists = mod.existsSync(renamed_path);
         exists.should.be.true;
         fs.unlinkSync(renamed_path);
     });
@@ -53,6 +53,74 @@ describe('File System', function() {
     it('renameSync() - NG (path2)', function() {   
         (function() {  
             fs.renameSync(etc_path, 'package.json');
+        }).should.throw(/^File restriction - /);
+    });
+    
+    it('chown() - OK', function(done) {
+        var uid = process.getuid();
+        var gid = process.getgid();
+        
+        fs.writeFileSync(tmp_path, 'log', 'utf8');
+        fs.chown(tmp_path, uid, gid, function(err){
+            should.not.exist(err);
+            fs.unlinkSync(tmp_path);
+            done();
+        });
+    });
+    
+    it('chown() - NG', function() {   
+        (function() {  
+            fs.chown('package.json', 0, 0);
+        }).should.throw(/^File restriction - /);
+    });
+    
+    it('chownSync() - OK', function() {
+        var uid = process.getuid();
+        var gid = process.getgid();
+        
+        fs.writeFileSync(tmp_path, 'log', 'utf8');
+        var result = fs.chownSync(tmp_path, uid, gid);
+        should.not.exist(result);
+        fs.unlinkSync(tmp_path);
+    });
+    
+    it('chownSync() - NG', function() {   
+        (function() {  
+            fs.chownSync('package.json', 0, 0);
+        }).should.throw(/^File restriction - /);
+    });
+
+    it('lchown() - OK', function(done) {
+        var uid = process.getuid();
+        var gid = process.getgid();
+        
+        fs.writeFileSync(tmp_path, 'log', 'utf8');
+        fs.lchown(tmp_path, uid, gid, function(err){
+            should.not.exist(err);
+            fs.unlinkSync(tmp_path);
+            done();
+        });
+    });
+    
+    it('lchown() - NG', function() {   
+        (function() {  
+            fs.lchown('package.json', 0, 0);
+        }).should.throw(/^File restriction - /);
+    });
+    
+    it('lchownSync() - OK', function() {
+        var uid = process.getuid();
+        var gid = process.getgid();
+        
+        fs.writeFileSync(tmp_path, 'log', 'utf8');
+        var result = fs.lchownSync(tmp_path, uid, gid);
+        should.not.exist(result);
+        fs.unlinkSync(tmp_path);
+    });
+    
+    it('lchownSync() - NG', function() {   
+        (function() {  
+            fs.lchownSync('package.json', 0, 0);
         }).should.throw(/^File restriction - /);
     });
     
@@ -70,7 +138,7 @@ describe('File System', function() {
     it('writeFileSync() - OK', function() {
         fs.writeFileSync(tmp_path, 'log', 'utf8');
         
-        var exists = path.existsSync(tmp_path);
+        var exists = mod.existsSync(tmp_path);
         exists.should.be.true;
         fs.unlinkSync(tmp_path);
     });
@@ -78,6 +146,30 @@ describe('File System', function() {
     it('writeFileSync() - NG', function() {
         (function() {
             fs.writeFileSync('tmp.log', 'log', 'utf8');
+        }).should.throw(/^File restriction - /);
+    });
+
+    it('exists() - OK', function(done) {        
+        mod.exists(etc_path, function(exists) {
+            exists.should.be.true;
+            done();
+        });
+    });
+        
+    it('exists() - NG', function() {
+        (function() {
+            mod.exists('package.json');
+        }).should.throw(/^File restriction - /);
+    });
+
+    it('existsSync() - OK', function() {        
+        var exists = mod.existsSync(etc_path);
+        exists.should.be.true;
+    });
+        
+    it('existsSync() - NG', function() {
+        (function() {
+            mod.existsSync('package.json');
         }).should.throw(/^File restriction - /);
     });
 });
