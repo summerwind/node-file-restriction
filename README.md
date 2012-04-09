@@ -1,6 +1,6 @@
 # File restriction for Node.js
 
-The file restriction module for Node.js. 
+The file restriction module for Node.js. 　
 This module provides the file restriction feature like "open_basedir" system of PHP.
 
 ## Installation
@@ -12,7 +12,18 @@ $ npm install file-restriction
 ## Usage
 
 ``` javascript
-require('file-restriction');
+// restriction.json
+[ "/etc", "/tmp" ]
+```
+
+``` javascript
+var fr = require('file-restriction');
+fr.activate('restriction.json');
+
+var fs = require('fs');
+fs.readFileSync('/etc/hosts');                 //=> OK
+fs.readFileSync('/etc/fr.txt');                //=> OK
+fs.readFileSync('/var/log/httpd/access.log');  //=> ERROR 
 ```
 
 ## License
