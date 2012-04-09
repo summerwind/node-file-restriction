@@ -1,4 +1,4 @@
-# File restriction for Node.js
+# file-restriction
 
 The file restriction module for Node.js.  
 This module provides the file restriction feature like "open_basedir" system of PHP.
