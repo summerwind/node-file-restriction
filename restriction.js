@@ -63,7 +63,7 @@ var restrictor = {
         }
 
         // If file does not exists, throw exception.
-        if(!path.existsSync(config_path)) {
+        if(!fs.existsSync(config_path)) {
             throw new Error('Restriction file does not exists - ' + config_path);
         }
 
