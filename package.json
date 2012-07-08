@@ -2,7 +2,7 @@
   "author": "Moto Ishizawa <summerwind.jp@gmail.com>",
   "name": "file-restriction",
   "description": "The file restriction for Node.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/summerwind/node-file-restriction.git"

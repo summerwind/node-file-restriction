@@ -63,7 +63,7 @@ var restrictor = {
         }
 
         // If file does not exists, throw exception.
-        if(!path.existsSync(config_path)) {
+        if(!mod.existsSync(config_path)) {
             throw new Error('Restriction file does not exists - ' + config_path);
         }
 
@@ -100,7 +100,7 @@ var restrictor = {
         }
         
         if(!allowed) {
-            throw new Error('File restriction - ' + target_path);
+            throw new Error('File restriction error - ' + target_path);
         }
     },
     
@@ -338,7 +338,7 @@ var restrictor = {
 // ==============================================
 // Export module interface
 // ==============================================
-exports.activate = function(config_path) {
+module.exports = function(config_path) {
     if(activated) { return; }
     restrictor.activate(config_path);
     activated = true;

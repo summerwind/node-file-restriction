@@ -17,13 +17,12 @@ $ npm install file-restriction
 ```
 
 ``` javascript
-var fr = require('file-restriction');
-fr.activate('restriction.json');
+require('file-restriction')('restriction.json');
 
 var fs = require('fs');
 fs.readFileSync('/etc/hosts');                 //=> OK
 fs.readFileSync('/etc/fr.txt');                //=> OK
-fs.readFileSync('/var/log/httpd/access.log');  //=> ERROR 
+fs.readFileSync('/var/log/httpd/access.log');  //=> ERROR
 ```
 
 ## License
