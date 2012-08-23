@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/summerwind/node-file-restriction.png)](http://travis-ci.org/summerwind/node-file-restriction)
 # file-restriction
 
 The file restriction module for Node.js.  
